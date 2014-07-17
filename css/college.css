@@ -1,0 +1,84 @@
+
+html, body, #main {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #4d4d4f;
+	background: #FAFAFA;
+}
+
+
+#carnegieSelection{
+	position: absolute;
+	width: 45px; 
+	height: 18px;
+	top: 11px;
+	left: 240px;	
+}
+
+#fieldSelection{
+	position: absolute;
+	width: 45px; 
+	height: 18px;
+	top: 11px;
+	left: 30px;
+}
+
+
+#legend {
+    background-color: #F2F2F2;
+    margin: 10px;
+    padding: 5px;    
+	border: 1px solid #000;
+	border-radius:2px; 
+	opacity:0.8;
+	
+    }
+
+#legend p {
+    font-weight: bold;
+    font-size: 12px;
+    margin-top: 3px;
+	margin-bottom: 10px;
+}
+
+#legend div {
+    clear: both;
+	margin-bottom: 1px;
+}
+
+
+.color {
+    height: 12px;
+    width: 12px;
+    margin-right: 3px;
+    float: left;
+    display: block;		
+}
+
+.text {
+    color: #424242;
+    width: 300px;
+}
+
+.label_button{
+	width: 78px;	
+	} 
+#cboxOverlay{ visibility: visible; opacity: 0.5 !important;} 
+
+#infoSite {
+  position: absolute;
+  top: 50px;
+  left: 5px;
+  z-index: 50;     
+}
+
+#downloadTable {
+  position: absolute;
+  top: 80px;
+  left: 5px;
+  z-index: 50;     
+}
