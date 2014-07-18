@@ -267,15 +267,10 @@
 
         google.maps.event.addListener(layer_institution, 'click', function(e) {
           // Change the content of the InfoWindow
-          e.infoWindowHtml = "ACUPCC: " + e.row['ACUPCC'].value + "<br>Gross Emissions: " + e.row['Gross Emissions'].value + "<br>Change Gross Emissions: " + e.row['Change Gross Emissions'].value  
-          + "<br>Change Gross Emissions/FTE: " + e.row['Change Gross Emissions/FTE'].value + "<br>Change Gross Emissions/sqft: " + parseFloat(e.row['Change Gross Emissions/sqft'].value)
-          + "<br>Total_GE: " + e.row['Total_GE'].value + "<br>Total_GE1: " + e.row['Total_GE1'].value 
-          + "<br>Total_GE2: " + e.row['Total_GE2'].value + "<br>Total_GE3: " + e.row['Total_GE3'].value 
-          + "<br>FTEStudent: " + e.row['FTEStudent'].value + "<br>GEsqft: " + e.row['GEsqft'].value + "<br>Total_GEScope1: " + e.row['Total_GEScope1'].value
-          + "<br>Total_GEScope2: " + e.row['Total_GEScope2'].value + "<br>Total_GEScope3: " + e.row['Total_GEScope3'].value;          
+          e.infoWindowHtml = "ACUPCC Signatory: " + e.row['ACUPCC'].value + "<br>Carnegie Classification: " + e.row['Carnegie'].value + "<br>Total Gross Emissions: " + e.row['Gross Emissions'].value + "<br>Change in Total Gross Emissions: " + e.row['Change Gross Emissions'].value  
+          + "<br>Change in Total Gross Emissions/FTE: " + e.row['Change Gross Emissions/FTE'].value + "<br>Change in Total Gross Emissions/sqft: " + parseFloat(e.row['Change Gross Emissions/sqft'].value)           
+          + "<br>FTE Student Enrollment: " + e.row['FTEStudent'].value + "<br>Gross Sq Ft of Building Space: " + parseFloat(e.row['GEsqft'].value);          
         });
-       
-
       }
 
       // Apply the style to the layer & generate corresponding legend
@@ -389,8 +384,11 @@
         legend.id = 'legend';
 
         var title = document.createElement('p');
-        title.innerHTML = column;
-        legend.appendChild(title);
+        //title.innerHTML = column;
+        //console.log(column)
+        if(column == 'Change Gross Emissions' || column == 'Gross Emissions'){title.innerHTML = column + " (MTCO2e)"; legend.appendChild(title);}
+        else if(column == 'Change Gross Emissions/FTE'){title.innerHTML = column + " (MTCO2e/FTE)"; legend.appendChild(title)}
+        else{title.innerHTML = column + " (MTCO2e/sqft)"; legend.appendChild(title);}
 
         var columnStyle = COLUMN_STYLES[column];
         for (var i in columnStyle) {
@@ -417,11 +415,11 @@
       var infoSite = document.getElementById("infoSite");
 
       infoSite.onclick = function (){
-        $.colorbox({html:'<a href="http://www.wesleyan.edu/" target="_blank">Wesleyan University</a> and <a href="http://www.secondnature.org/" target="_blank">Second Nature</a> have collaborated to create this map of the most recently reported data from schools participating in the American College & University Presidents\' Climate Commitment.<br><br>Zoom in for campus-level information. Use the info icon <i class="fa fa-info-circle fa-1x"></i> to read about this project.<br><br>Map built by Harvard University\'s <a href="http://gis.harvard.edu" target="_blank">Center for Geographic Analysis</a>.',width:"300px"});
+        $.colorbox({html:'<a href="http://www.wesleyan.edu/" target="_blank">Wesleyan University</a> and <a href="http://www.secondnature.org/" target="_blank">Second Nature</a> have collaborated to create this map of the most recently reported data from schools participating in the American College & University Presidents\' Climate Commitment.<br><br>Zoom in for campus-level information. Use the info icon <i class="fa fa-info-circle fa-1x"></i> to read more about this project. School categories are determined by the <a href="http://classifications.carnegiefoundation.org" target="_blank">Carnegie Classification System</a>. For more detailed data, please contact <a href="http://www.secondnature.org/" target="_blank">Second Nature</a>. <br><br>Map conceptualized by <a href="http://mahaddad.faculty.wesleyan.edu/" target="_blank">Mary Alice Haddad</a> and built by Harvard University\'s <a href="http://gis.harvard.edu" target="_blank">Center for Geographic Analysis</a>.',width:"300px"});
       }
 
       downloadTable.onclick = function (){        
-        window.location.href = 'http://cga-3.hmdc.harvard.edu/college/GHGemission2013point.csv';
+        window.location.href = 'http://cga-3.hmdc.harvard.edu/college/PR_Gross_Change_GHG_2014-07-03.xls';
       } 
 
       google.maps.event.addDomListener(window, "resize", function() {
