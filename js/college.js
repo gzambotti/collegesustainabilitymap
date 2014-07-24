@@ -3,8 +3,20 @@
        * @type {Object}
        * @const
        */
-    var tableid_state = '1oNX4tZ2XAupwWH1zNd3KzUTe6tl5k8XWCyTiebDY';   
-    var tableid_institution = '1fxlByALMH3q40rpCyVQPBsdPyKBHnPaPEvaAFEEz';    
+    var tableid_state = '1i8nHdYi3atZfKiSvQtgNj5SkoZlmVDHOMmguT-N_';   
+    var tableid_institution = '15m1sXehRhp2EtEUUlRRSXc-t8z5FSyE02Bl8yEjI';
+
+    function addCommas(nStr) {
+      nStr += '';
+      x = nStr.split('.');
+      x1 = x[0];
+      x2 = x.length > 1 ? '.' + x[1] : '';
+      var rgx = /(\d+)(\d{3})/;
+      while (rgx.test(x1)) {
+          x1 = x1.replace(rgx, '$1' + ',' + '$2');
+      }
+      return x1 + x2;
+    }    
       
     $(document).ready(function(){
       $.colorbox({inline:true, href:".ajax", width:"300px"});
@@ -260,16 +272,17 @@
 
         google.maps.event.addListener(layer, 'click', function(e) {
           // Change the content of the InfoWindow
-          e.infoWindowHtml = "State: " + e.row['STATE_NAME'].value + "<br>Gross Emissions: " + parseFloat(e.row['Gross Emissions'].value) + "<br>Change Gross Emissions: " + e.row['Change Gross Emissions'].value 
-          + "<br>Change Gross Emissions/FTE: " + e.row['Change Gross Emissions/FTE'].value + "<br>Change Gross Emissions/sqft: " + parseFloat(e.row['Change Gross Emissions/sqft'].value) ;
+          e.infoWindowHtml = "State: " + e.row['STATE_NAME'].value + "<br>Number of Schools : " + addCommas(parseFloat(e.row['Schools_count'].value)) + "<br>Gross Emissions: " + addCommas(parseFloat(e.row['Gross Emissions'].value)) + "<br>Change Gross Emissions: " + addCommas(e.row['Change Gross Emissions'].value) 
+          + "<br>Change Gross Emissions/FTE: " + addCommas(e.row['Change Gross Emissions/FTE'].value) + "<br>Change Gross Emissions/sqft: " + addCommas(parseFloat(e.row['Change Gross Emissions/sqft'].value));
           
         });
 
         google.maps.event.addListener(layer_institution, 'click', function(e) {
           // Change the content of the InfoWindow
-          e.infoWindowHtml = "ACUPCC Signatory: " + e.row['ACUPCC'].value + "<br>Carnegie Classification: " + e.row['Carnegie'].value + "<br>Total Gross Emissions: " + e.row['Gross Emissions'].value + "<br>Change in Total Gross Emissions: " + e.row['Change Gross Emissions'].value  
-          + "<br>Change in Total Gross Emissions/FTE: " + e.row['Change Gross Emissions/FTE'].value + "<br>Change in Total Gross Emissions/sqft: " + parseFloat(e.row['Change Gross Emissions/sqft'].value)           
-          + "<br>FTE Student Enrollment: " + e.row['FTEStudent'].value + "<br>Gross Sq Ft of Building Space: " + parseFloat(e.row['GEsqft'].value);          
+          e.infoWindowHtml = "ACUPCC Signatory: " + e.row['ACUPCC'].value + "<br>Carnegie Classification: " + e.row['Carnegie'].value + "<br>Total Gross Emissions: " + addCommas(e.row['Gross Emissions'].value) + "<br>Change in Total Gross Emissions: " + addCommas(e.row['Change Gross Emissions'].value)  
+          + "<br>Change in Total Gross Emissions/FTE: " + addCommas(e.row['Change Gross Emissions/FTE'].value) + "<br>Change in Total Gross Emissions/sqft: " + addCommas(parseFloat(e.row['Change Gross Emissions/sqft'].value))           
+          + "<br>FTE Student Enrollment: " + addCommas(e.row['FTEStudent'].value) + "<br>Gross Sq Ft of Building Space: " + addCommas(parseFloat(e.row['GEsqft'].value))
+          + "<br>Baseline GHG Report Year: " + e.row['BaselineYear'].value + "<br>Most Current GHG Report Year: " + e.row['MostYear'].value;          
         });
       }
 
@@ -415,13 +428,13 @@
       var infoSite = document.getElementById("infoSite");
 
       infoSite.onclick = function (){
-        $.colorbox({html:'<a href="http://www.wesleyan.edu/" target="_blank">Wesleyan University</a> and <a href="http://www.secondnature.org/" target="_blank">Second Nature</a> have collaborated to create this map of the most recently reported data from schools participating in the American College & University Presidents\' Climate Commitment.<br><br>Zoom in for campus-level information. Use the info icon <i class="fa fa-info-circle fa-1x"></i> to read more about this project. School categories are determined by the <a href="http://classifications.carnegiefoundation.org" target="_blank">Carnegie Classification System</a>. For more detailed data, please contact <a href="http://www.secondnature.org/" target="_blank">Second Nature</a>. <br><br>Map conceptualized by <a href="http://mahaddad.faculty.wesleyan.edu/" target="_blank">Mary Alice Haddad</a> and built by Harvard University\'s <a href="http://gis.harvard.edu" target="_blank">Center for Geographic Analysis</a>.',width:"300px"});
+        $.colorbox({html:'<a href="http://www.wesleyan.edu/" target="_blank">Wesleyan University</a> and <a href="http://www.secondnature.org/" target="_blank">Second Nature</a> have collaborated to create this map of the most recently reported data from schools participating in the American College & University Presidents\' Climate Commitment.<br><br>Zoom in for campus-level information. Use the info icon <i class="fa fa-info-circle fa-1x"></i> to read more about this project. School categories are determined by the <a href="http://classifications.carnegiefoundation.org" target="_blank">Carnegie Classification System</a>. For more detailed data, please contact <a href="http://www.secondnature.org/" target="_blank">Second Nature</a>. <br><br>Map conceptualized by <a href="http://mahaddad.faculty.wesleyan.edu/" target="_blank">Mary Alice Haddad</a> and built by Harvard University\'s <a href="http://gis.harvard.edu" target="_blank">Center for Geographic Analysis</a>.<br><br>Data is available for research purposes - contact: <a href="mailto:reporting@secondnature.org">reporting@secondnature.org</a>',width:"300px"});
       }
-
+      /*
       downloadTable.onclick = function (){        
         window.location.href = 'http://cga-3.hmdc.harvard.edu/college/PR_Gross_Change_GHG_2014-07-03.xls';
       } 
-
+      */
       google.maps.event.addDomListener(window, "resize", function() {
           var center = map.getCenter();
           google.maps.event.trigger(map, "resize");
