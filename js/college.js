@@ -53,34 +53,7 @@
             });      
       });  
       });
-      var COLUMN_STYLES = {
-        'Gross Emissions': [
-          {
-            'min': 1641,
-            'max': 60000,
-            'color': "#1a9641"
-          },
-          {
-            'min': 60000,
-            'max': 200000,
-            'color': "#a6d96a"
-          },
-          {
-            'min': 200000,
-            'max': 400000,
-            'color': "#ffffbf"
-          },
-          {
-            'min': 400000,
-            'max': 800000,
-            'color': "#fdae61"
-          },
-          {
-            'min': 800000,
-            'max': 2000000,
-            'color': "#d7191c"
-          }
-        ],
+      var COLUMN_STYLES = {        
         'Change Gross Emissions': [
           {
             'min': -400000,
@@ -163,8 +136,35 @@
             'max': 150,
             'color': "#d7191c"
           }
-
+        ],
+        'Gross Emissions': [
+          {
+            'min': 1641,
+            'max': 60000,
+            'color': "#1a9641"
+          },
+          {
+            'min': 60000,
+            'max': 200000,
+            'color': "#a6d96a"
+          },
+          {
+            'min': 200000,
+            'max': 400000,
+            'color': "#ffffbf"
+          },
+          {
+            'min': 400000,
+            'max': 800000,
+            'color': "#fdae61"
+          },
+          {
+            'min': 800000,
+            'max': 2000000,
+            'color': "#d7191c"
+          }
         ]
+
       };
       
       var map, layer, layer_institution;
@@ -196,32 +196,32 @@
 
         layer = new google.maps.FusionTablesLayer({
           query: {
-            select: 'Gross Emissions',
+            select: 'Change Gross Emissions',
             from: tableid_state,
-            where: "'Carnegie' = 'All Schools'"
+            where: "'Carnegie' = 'ACUPCC signatory schools'"
           },
            styles: [{
-              where: "'Gross Emissions' < 60000 ", 
+              where: "'Change Gross Emissions' < -100000 ", 
                polygonOptions: {
                   fillColor: '#1a9641',
                   fillOpacity: 0.8
               }},
-              {where: "'Gross Emissions' > 60000 AND 'Gross Emissions' < 200000", 
+              {where: "'Change Gross Emissions' > -100000 AND 'Change Gross Emissions' < -25000", 
                polygonOptions: {
                   fillColor: '#a6d96a',
                   fillOpacity: 0.8
               }},
-              {where: "'Gross Emissions' > 200000 AND 'Gross Emissions' < 400000", 
+              {where: "'Change Gross Emissions' > -25000 AND 'Change Gross Emissions' < 25000", 
                polygonOptions: {
                   fillColor: '#ffffbf',
                   fillOpacity: 0.8
               }},
-              {where: "'Gross Emissions' > 400000 AND 'Gross Emissions' < 800000", 
+              {where: "'Change Gross Emissions' > 25000 AND 'Change Gross Emissions' < 100000", 
                polygonOptions: {
                   fillColor: '#fdae61',
                   fillOpacity: 0.8
               }},
-              {where: "'Gross Emissions' > 800000 AND 'Gross Emissions' < 2000000", 
+              {where: "'Change Gross Emissions' > 100000 AND 'Change Gross Emissions' < 500000", 
                polygonOptions: {
                   fillColor: '#d7191c',
                   fillOpacity: 0.8
@@ -239,11 +239,11 @@
             from: tableid_institution,
             //where: "'Carnegie' = 'Assoc/Pub-R-L: Associate\\'s Public Rural-serving Large'"
           },
-          styles:[{where: "'Gross Emissions < 60000'",markerOptions: {iconName: "grn_blank"}},
-                   {where: "'Gross Emissions' > 60000 AND 'Gross Emissions' < 200000", markerOptions: {iconName: "ylw_blank"}},
-                   {where: "'Gross Emissions' > 200000 AND 'Gross Emissions' < 400000", markerOptions: {iconName: "wht_blank"}},
-                   {where: "'Gross Emissions' > 400000 AND 'Gross Emissions' < 800000", markerOptions: {iconName: "orange_blank"}},
-                   {where: "'Gross Emissions' > 800000 AND 'Gross Emissions' < 2000000", markerOptions: {iconName: "red_blank"}}
+          styles:[{where: "'Change Gross Emissions < -100000'",markerOptions: {iconName: "grn_blank"}},
+                   {where: "'Change Gross Emissions' > -100000 AND 'Change Gross Emissions' < -25000", markerOptions: {iconName: "ylw_blank"}},
+                   {where: "'Change Gross Emissions' > -25000 AND 'Change Gross Emissions' < 25000", markerOptions: {iconName: "wht_blank"}},
+                   {where: "'Change Gross Emissions' > 25000 AND 'Change Gross Emissions' < 100000", markerOptions: {iconName: "orange_blank"}},
+                   {where: "'Change Gross Emissions' > 100000 AND 'Change Gross Emissions' < 500000", markerOptions: {iconName: "red_blank"}}
             ]             
         });
 
@@ -272,15 +272,15 @@
 
         google.maps.event.addListener(layer, 'click', function(e) {
           // Change the content of the InfoWindow
-          e.infoWindowHtml = "State: " + e.row['STATE_NAME'].value + "<br>Number of Schools : " + addCommas(parseFloat(e.row['Schools_count'].value)) + "<br>Gross Emissions: " + addCommas(parseFloat(e.row['Gross Emissions'].value)) + "<br>Change Gross Emissions: " + addCommas(e.row['Change Gross Emissions'].value) 
-          + "<br>Change Gross Emissions/FTE: " + addCommas(e.row['Change Gross Emissions/FTE'].value) + "<br>Change Gross Emissions/sqft: " + addCommas(parseFloat(e.row['Change Gross Emissions/sqft'].value));
+          e.infoWindowHtml = "State: " + e.row['STATE_NAME'].value + "<br>Number of Schools : " + addCommas(parseFloat(e.row['Schools_count'].value)) + "<br>Change Gross Emissions: " + addCommas(e.row['Change Gross Emissions'].value) 
+          + "<br>Change Gross Emissions/FTE: " + addCommas(e.row['Change Gross Emissions/FTE'].value) + "<br>Change Gross Emissions/sqft: " + addCommas(parseFloat(e.row['Change Gross Emissions/sqft'].value)) + "<br>Gross Emissions: " + addCommas(parseFloat(e.row['Gross Emissions'].value));
           
         });
 
         google.maps.event.addListener(layer_institution, 'click', function(e) {
           // Change the content of the InfoWindow
-          e.infoWindowHtml = "ACUPCC Signatory: " + e.row['ACUPCC'].value + "<br>Carnegie Classification: " + e.row['Carnegie'].value + "<br>Total Gross Emissions: " + addCommas(e.row['Gross Emissions'].value) + "<br>Change in Total Gross Emissions: " + addCommas(e.row['Change Gross Emissions'].value)  
-          + "<br>Change in Total Gross Emissions/FTE: " + addCommas(e.row['Change Gross Emissions/FTE'].value) + "<br>Change in Total Gross Emissions/sqft: " + addCommas(parseFloat(e.row['Change Gross Emissions/sqft'].value))           
+          e.infoWindowHtml = "ACUPCC Signatory: " + e.row['ACUPCC'].value + "<br>Carnegie Classification: " + e.row['Carnegie'].value + "<br>Change Gross Emissions: " + addCommas(e.row['Change Gross Emissions'].value)  
+          + "<br>Change Gross Emissions/FTE: " + addCommas(e.row['Change Gross Emissions/FTE'].value) + "<br>Change Gross Emissions/sqft: " + addCommas(parseFloat(e.row['Change Gross Emissions/sqft'].value)) + "<br>Gross Emissions: " + addCommas(e.row['Gross Emissions'].value)           
           + "<br>FTE Student Enrollment: " + addCommas(e.row['FTEStudent'].value) + "<br>Gross Sq Ft of Building Space: " + addCommas(parseFloat(e.row['GEsqft'].value))
           + "<br>Baseline GHG Report Year: " + e.row['BaselineYear'].value + "<br>Most Current GHG Report Year: " + e.row['MostYear'].value;          
         });
@@ -428,7 +428,7 @@
       var infoSite = document.getElementById("infoSite");
 
       infoSite.onclick = function (){
-        $.colorbox({html:'<a href="http://www.wesleyan.edu/" target="_blank">Wesleyan University</a> and <a href="http://www.secondnature.org/" target="_blank">Second Nature</a> have collaborated to create this map of the most recently reported data from schools participating in the American College & University Presidents\' Climate Commitment.<br><br>Zoom in for campus-level information. Use the info icon <i class="fa fa-info-circle fa-1x"></i> to read more about this project. School categories are determined by the <a href="http://classifications.carnegiefoundation.org" target="_blank">Carnegie Classification System</a>. For more detailed data, please contact <a href="http://www.secondnature.org/" target="_blank">Second Nature</a>. <br><br>Map conceptualized by <a href="http://mahaddad.faculty.wesleyan.edu/" target="_blank">Mary Alice Haddad</a> and built by Harvard University\'s <a href="http://gis.harvard.edu" target="_blank">Center for Geographic Analysis</a>.<br><br>Data is available for research purposes - contact: <a href="mailto:reporting@secondnature.org">reporting@secondnature.org</a>',width:"300px"});
+        $.colorbox({html:'<a href="http://www.wesleyan.edu/" target="_blank">Wesleyan University</a> and <a href="http://www.secondnature.org/" target="_blank">Second Nature</a> have collaborated to create this map of the most recently reported data from schools participating in the American College & University Presidents\' Climate Commitment.<br><br>The national view aggregates state-wide data. Zoom in for campus-level information. Use the info icon <i class="fa fa-info-circle fa-1x"></i> to read more about this project. School categories are determined by the <a href="http://classifications.carnegiefoundation.org" target="_blank">Carnegie Classification System</a>. For more detailed data, please contact <a href="http://www.secondnature.org/" target="_blank">Second Nature</a>. <br><br>Map conceptualized by <a href="http://mahaddad.faculty.wesleyan.edu/" target="_blank">Mary Alice Haddad</a> and built by Harvard University\'s <a href="http://gis.harvard.edu" target="_blank">Center for Geographic Analysis</a>.<br><br>Data is available for research purposes - contact: <a href="mailto:reporting@secondnature.org">reporting@secondnature.org</a>',width:"300px"});
       }
       /*
       downloadTable.onclick = function (){        
